@@ -8,16 +8,16 @@ const PROVECOMMIT_VALUE_IN_FIL: f64 = 0.1684;
 
 fn main() {
     println!("Enter the desired storage capacity in PiB:");
-
     let mut pib_str = String::new();
     io::stdin().read_line(&mut pib_str).unwrap();
 
     let pib: u64 = pib_str.trim().parse().unwrap();
     let total_gib: u64 = pib * PIB_IN_GIB;
-
     let sectors: u64 = total_gib / GIB;
+
     let (collateral_in_fil, verified_collateral_in_fil) = estimate_collateral(sectors);
     let (total_liquidity_required, total_liquidity_required_verified) = estimate_fees(sectors as f64);
+
     println!("{} sectors require {} FIL in precommit deposit fees, and need {} FIL for provecommit ",
              sectors, total_liquidity_required, total_liquidity_required_verified);
     println!("{} sectors require {} FIL in pledge collateral, and need {} FIL for pledge collateral for sectors containing verified deals",
@@ -31,13 +31,12 @@ fn estimate_collateral(sectors: u64) -> (f64, f64) {
 }
 
 fn estimate_fees(sectors : f64) -> (f64, f64) {
-    let precommit_desposit: f64 = PRECOMMIT_VALUE_IN_FIL4;
+    let precommit_desposit: f64 = PRECOMMIT_VALUE_IN_FIL;
     let provecommit_fee : f64 = PROVECOMMIT_VALUE_IN_FIL;
     let total_precommit_deposits: f64 = sectors * precommit_desposit;
     let total_provecommit_fee: f64 = sectors * provecommit_fee;
     (total_precommit_deposits,total_provecommit_fee)
 }
-
 
 #[cfg(test)]
 mod tests {
