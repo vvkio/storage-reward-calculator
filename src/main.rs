@@ -16,14 +16,15 @@ fn main() {
     let total_gib: u64 = pib * PIB_IN_GIB;
 
     let sectors: u64 = total_gib / GIB;
-    let (collateral_in_fil, verified_collateral_in_fil) = calculate_collateral(sectors);
+    let (collateral_in_fil, verified_collateral_in_fil) = estimate_collateral(sectors);
     let (total_liquidity_required, total_liquidity_required_verified) = estimate_fees(sectors as f64);
     println!("{} sectors require {} FIL in precommit deposit fees, and need {} FIL for provecommit ",
              sectors, total_liquidity_required, total_liquidity_required_verified);
-    println!()
+    println!("{} sectors require {} FIL in pledge collateral, and need {} FIL for pledge collateral for sectors containing verified deals",
+             sectors, collateral_in_fil, verified_collateral_in_fil);
 }
 
-fn calculate_collateral(sectors: u64) -> (f64, f64) {
+fn estimate_collateral(sectors: u64) -> (f64, f64) {
     let collateral_in_fil: f64 = sectors as f64 * COLLATERAL_REQUIREMENT_IN_FIL;
     let verified_collateral_in_fil: f64 = collateral_in_fil * 10.0;
     (collateral_in_fil, verified_collateral_in_fil)
