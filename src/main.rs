@@ -39,21 +39,6 @@ fn estimate_fees(sectors : f64) -> (f64, f64) {
     (total_precommit_deposits,total_provecommit_fee)
 }
 
-
-fn print_fees(sectors: u64, precommit_deposit: f64, provecommit_fee: f64) {
-    println!(
-        "{} sectors, require {:.2} FIL in precommit deposit fees, and need {:.2} FIL for provecommit ",
-        sectors, precommit_deposit, provecommit_fee
-    );
-}
-
-fn print_collateral_requirement(sectors: u64, collateral_in_fil: f64, verified_collateral_in_fil: f64) {
-    println!(
-        "{} sectors, require {:.2} FIL in collateral, and need {:.2} FIL for verified deals ",
-        sectors, collateral_in_fil, verified_collateral_in_fil
-    );
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
