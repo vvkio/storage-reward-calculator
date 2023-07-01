@@ -52,3 +52,32 @@ fn print_collateral_requirement(sectors: u64, collateral_in_fil: f64, verified_c
         sectors, collateral_in_fil, verified_collateral_in_fil
     );
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_calculate_collateral() {
+        let sectors = 1000;
+        let (collateral_in_fil, verified_collateral_in_fil) = calculate_collateral(sectors);
+        assert_eq!(collateral_in_fil, sectors as f64 * COLLATERAL_REQUIREMENT_IN_FIL);
+        assert_eq!(verified_collateral_in_fil, collateral_in_fil * 10.0);
+    }
+
+    #[test]
+    fn test_estimate_fees() {
+        let sectors = 1000.0;
+        let (total_precommit_deposits, total_provecommit_fee) = estimate_fees(sectors);
+        assert_eq!(total_precommit_deposits, sectors * PRECOMMIT_VALUE_IN_FIL);
+        assert_eq!(total_provecommit_fee, sectors * PROVECOMMIT_VALUE_IN_FIL);
+    }
+
+    #[test]
+    #[should_panic(expected = "attempt to divide by zero")]
+    fn test_division_by_zero_in_main() {
+        let pib: u64 = 0;  // This will cause division by zero in main
+        let total_gib: u64 = pib * PIB_IN_GIB;
+        let _sectors: u64 = total_gib / GIB;  // This should panic
+    }
+}
