@@ -1,8 +1,8 @@
 ---
 
-# Rust Storage Estimator
+# Filecoin Storage liqudity and fees Estimator
 
-This is a simple storage estimator program written in Rust. It prompts the user for a storage size in Pebibytes (PiB), and then calculates the number of 32 Gibibyte sectors, the estimated collateral requirement, and the gas fees required for onboarding such storage to the Filecoin network.
+ is a simple storage estimator program written in Rust. It prompts the user for a storage size in Pebibytes (PiB), and then calculates the number of 32 Gibibyte sectors, the estimated collateral requirement, and the gas fees required for onboarding such storage to the Filecoin network.
 
 
 **Disclaimer:** This program is a fun project and is not intended for professional use. The results should be used for informational purposes only.
