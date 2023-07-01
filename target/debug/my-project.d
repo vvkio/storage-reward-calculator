@@ -1,1 +1,1 @@
-/home/runner/storagecollateralrewardcollateral/target/debug/my-project: /home/runner/storagecollateralrewardcollateral/src/main.rs
+/Users/vvk/IdeaProjects/storage-reward-calculator/target/debug/my-project: /Users/vvk/IdeaProjects/storage-reward-calculator/src/main.rs

@@ -17,8 +17,9 @@ fn main() {
 
     let sectors: u64 = total_gib / GIB;
     let (collateral_in_fil, verified_collateral_in_fil) = calculate_collateral(sectors);
-    let (total_liqudity_required, total_liqudity_required_verified) = calculate_liquidity(collateral_in_fil);
-  
+    let (total_liquidity_required, total_liquidity_required_verified) = calculate_liquidity(collateral_in_fil);
+
+    print_liquidity(sectors, collateral_in_fil,verified_collateral_in_fil);
 }
 
 fn calculate_collateral(sectors: u64) -> (f64, f64) {
@@ -28,16 +29,18 @@ fn calculate_collateral(sectors: u64) -> (f64, f64) {
 }
 
 fn calculate_liquidity(collateral_in_fil: f64) -> (f64, f64) {
-    let required_liqudity_cc: f64 = 0.2033+0.0596+0.1684;
-    let required_liqudity_verified: f64 = required_liqudity_cc * 10.0;
+    let required_liquidity_cc: f64 = 0.2033+0.0596+0.1684;
+    // let required_liquidity_verified: f64 = required_liquidity_cc * 10.0;
 
-    let total_liqudity_required: f64 = collateral_in_fil + required_liqudity_cc;
-    let total_liqudity_required_verified: f64 = total_liqudity_required * 10.0;
+    let total_liquidity_required: f64 = collateral_in_fil + required_liqudity_cc;
+    let total_liquidity_required_verified: f64 = total_liqudity_required * 10.0;
 
     (total_liqudity_required, total_liqudity_required_verified)
 }
 
-fn print_collateral(sectors: u64, collateral: f64, verified_collateral: f64) {
+
+// prints a basic estimate of the liquidity required to onboard # number of sectors, taking into account: pledge collateral and precommit/provecommit messages gas fees
+fn print_liquidity_requirements(sectors: u64, collateral: f64, collateral: f64) {
     println!(
         "{} sectors, require {:.2} FIL of collateral for CC, while it requires {:.2} FIL for verified deals",
         sectors, collateral, verified_collateral
