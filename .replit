@@ -1,0 +1,8 @@
+hidden = ["target", ".cargo"]
+
+entrypoint = "src/main.rs"
+
+modules = ["rust"]
+
+[gitHubImport]
+requiredFiles = [".replit"]
