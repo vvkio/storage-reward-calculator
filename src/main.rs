@@ -31,12 +31,17 @@ fn estimate_collateral(sectors: u64) -> (f64, f64) {
 }
 
 fn estimate_fees(sectors : f64) -> (f64, f64) {
-    let precommit_desposit: f64 = 0.1684;
-    let provecommit_fee : f64 = 0.1684;
-    // let required_liquidity_verified: f64 = required_liquidity_cc * 10.0;
+    let precommit_desposit: f64 = PRECOMMIT_VALUE_IN_FIL4;
+    let provecommit_fee : f64 = PROVECOMMIT_VALUE_IN_FIL;
     let total_precommit_deposits: f64 = sectors * precommit_desposit;
     let total_provecommit_fee: f64 = sectors * provecommit_fee;
     (total_precommit_deposits,total_provecommit_fee)
+}
+
+fn print_message_fees(sectors: u64) {
+    println!("{} sectors require {} FIL in precommit deposit fees, and need {} FIL for provecommit ",
+             sectors, total_precommit_deposits, total_provecommit_fee);
+    let ()
 }
 
 #[cfg(test)]
