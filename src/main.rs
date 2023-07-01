@@ -17,9 +17,10 @@ fn main() {
 
     let sectors: u64 = total_gib / GIB;
     let (collateral_in_fil, verified_collateral_in_fil) = calculate_collateral(sectors);
-    let (total_liquidity_required, total_liquidity_required_verified) = calculate_liquidity(collateral_in_fil);
-
-    print_liquidity(sectors, collateral_in_fil,verified_collateral_in_fil);
+    let (total_liquidity_required, total_liquidity_required_verified) = estimate_fees(sectors as f64);
+    println!("{} sectors require {} FIL in precommit deposit fees, and need {} FIL for provecommit ",
+             sectors, total_liquidity_required, total_liquidity_required_verified);
+    println!()
 }
 
 fn calculate_collateral(sectors: u64) -> (f64, f64) {
@@ -28,28 +29,26 @@ fn calculate_collateral(sectors: u64) -> (f64, f64) {
     (collateral_in_fil, verified_collateral_in_fil)
 }
 
-fn calculate_liquidity(collateral_in_fil: f64) -> (f64, f64) {
-    let required_liquidity_cc: f64 = 0.2033+0.0596+0.1684;
+fn estimate_fees(sectors : f64) -> (f64, f64) {
+    let precommit_desposit: f64 = 0.1684;
+    let provecommit_fee : f64 = 0.1684;
     // let required_liquidity_verified: f64 = required_liquidity_cc * 10.0;
-
-    let total_liquidity_required: f64 = collateral_in_fil + required_liqudity_cc;
-    let total_liquidity_required_verified: f64 = total_liqudity_required * 10.0;
-
-    (total_liqudity_required, total_liqudity_required_verified)
+    let total_precommit_deposits: f64 = sectors * precommit_desposit;
+    let total_provecommit_fee: f64 = sectors * provecommit_fee;
+    (total_precommit_deposits,total_provecommit_fee)
 }
 
 
-// prints a basic estimate of the liquidity required to onboard # number of sectors, taking into account: pledge collateral and precommit/provecommit messages gas fees
-fn print_liquidity_requirements(sectors: u64, collateral: f64, collateral: f64) {
+fn print_fees(sectors: u64, precommit_deposit: f64, provecommit_fee: f64) {
     println!(
-        "{} sectors, require {:.2} FIL of collateral for CC, while it requires {:.2} FIL for verified deals",
-        sectors, collateral, verified_collateral
+        "{} sectors, require {:.2} FIL in precommit deposit fees, and need {:.2} FIL for provecommit ",
+        sectors, precommit_deposit, provecommit_fee
     );
 }
 
-fn print_liquidity(sectors: u64, liquidity: f64, verified_liquidity: f64) {
+fn print_collateral_requirement(sectors: u64, collateral_in_fil: f64, verified_collateral_in_fil: f64) {
     println!(
-        "{} sectors, require {:.2} FIL of liquidity for CC, while it requires {:.2} FIL for verified deals",
-        sectors, liquidity, verified_liquidity
+        "{} sectors, require {:.2} FIL in collateral, and need {:.2} FIL for verified deals ",
+        sectors, collateral_in_fil, verified_collateral_in_fil
     );
 }
