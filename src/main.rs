@@ -38,11 +38,6 @@ fn estimate_fees(sectors : f64) -> (f64, f64) {
     (total_precommit_deposits,total_provecommit_fee)
 }
 
-fn print_message_fees(sectors: u64) {
-    println!("{} sectors require {} FIL in precommit deposit fees, and need {} FIL for provecommit ",
-             sectors, total_precommit_deposits, total_provecommit_fee);
-    let ()
-}
 
 #[cfg(test)]
 mod tests {
