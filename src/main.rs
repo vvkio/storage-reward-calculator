@@ -1,6 +1,6 @@
 use std::io;
 
-const GIB: u64 = 32; // 32 GiB
+const SECTOR_CAPACITY_IN_GIB: u64 = 32; // 32 GiB
 const PIB_IN_GIB: u64 = 1024 * 1024; // 1 PiB = 1048576 GiB
 const COLLATERAL_REQUIREMENT_IN_FIL: f64 = 0.2033;
 const PRECOMMIT_VALUE_IN_FIL: f64 = 0.0596;
@@ -13,7 +13,7 @@ fn main() {
 
     let pib: u64 = pib_str.trim().parse().unwrap();
     let total_gib: u64 = pib * PIB_IN_GIB;
-    let sectors: u64 = total_gib / GIB;
+    let sectors: u64 = total_gib / SECTOR_CAPACITY_IN_GIB;
 
     let (collateral_in_fil, verified_collateral_in_fil) = estimate_collateral(sectors);
     let (total_liquidity_required, total_liquidity_required_verified) = estimate_fees(sectors as f64);
@@ -63,6 +63,6 @@ mod tests {
     fn test_division_by_zero_in_main() {
         let pib: u64 = 0;  // This will cause division by zero in main
         let total_gib: u64 = pib * PIB_IN_GIB;
-        let _sectors: u64 = total_gib / GIB;  // This should panic
+        let _sectors: u64 = total_gib / SECTOR_CAPACITY_IN_GIB;  // This should panic
     }
-}
+B}
