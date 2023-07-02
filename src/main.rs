@@ -65,4 +65,4 @@ mod tests {
         let total_gib: u64 = pib * PIB_IN_GIB;
         let _sectors: u64 = total_gib / SECTOR_CAPACITY_IN_GIB;  // This should panic
     }
-B}
+}
