@@ -52,7 +52,7 @@ mod tests {
     #[test]
     fn test_estimate_collateral() {
         let sectors = 1000;
-        let (collateral_in_fil, verified_collateral_in_fil) = calculate_collateral(sectors);
+        let (collateral_in_fil, verified_collateral_in_fil) = estimate_collateral(sectors);
         assert_eq!(collateral_in_fil, sectors as f64 * COLLATERAL_REQUIREMENT_IN_FIL);
         assert_eq!(verified_collateral_in_fil, collateral_in_fil * 10.0);
     }
