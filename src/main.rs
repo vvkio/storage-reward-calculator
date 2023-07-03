@@ -15,13 +15,8 @@ fn main() {
     let total_gib: u64 = pib * PIB_IN_GIB;
     let sectors: u64 = total_gib / SECTOR_CAPACITY_IN_GIB;
 
-    let (collateral_in_fil, verified_collateral_in_fil) = estimate_collateral(sectors);
-    let (total_liquidity_required, total_liquidity_required_verified) = estimate_fees(sectors as f64);
-
-    println!("{} sectors require {} FIL in precommit deposit fees, and need {} FIL for provecommit ",
-             sectors, total_liquidity_required, total_liquidity_required_verified);
-    println!("{} sectors require {} FIL in pledge collateral, and need {} FIL for pledge collateral for sectors containing verified deals",
-             sectors, collateral_in_fil, verified_collateral_in_fil);
+    print_fees(sectors);
+    print_collateral(sectors);
 }
 
 fn estimate_collateral(sectors: u64) -> (f64, f64) {
@@ -36,6 +31,18 @@ fn estimate_fees(sectors : f64) -> (f64, f64) {
     let total_precommit_deposits: f64 = sectors * precommit_desposit;
     let total_provecommit_fee: f64 = sectors * provecommit_fee;
     (total_precommit_deposits,total_provecommit_fee)
+}
+
+fn print_fees(sectors: u64) {
+    let (total_liquidity_required, total_liquidity_required_verified) = estimate_fees(sectors as f64);
+    println!("{} sectors require {} FIL in precommit deposit fees, and need {} FIL for provecommit ",
+             sectors, total_liquidity_required, total_liquidity_required_verified);
+}
+
+fn print_collateral(sectors: u64) {
+    let (collateral_in_fil, verified_collateral_in_fil) = estimate_collateral(sectors);
+    println!("{} sectors require {} FIL in pledge collateral, and need {} FIL for pledge collateral for sectors containing verified deals",
+             sectors, collateral_in_fil, verified_collateral_in_fil);
 }
 
 #[cfg(test)]
