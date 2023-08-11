@@ -14,7 +14,10 @@ fn main() {
     let pib: u64 = pib_str.trim().parse().unwrap();
     let total_gib: u64 = pib * PIB_IN_GIB;
     let sectors: u64 = total_gib / SECTOR_CAPACITY_IN_GIB;
+    print_estimates(sectors);
+}
 
+fn print_estimates(sectors: u64){
     print_fees(sectors);
     print_collateral(sectors);
 }
@@ -26,16 +29,16 @@ fn estimate_collateral(sectors: u64) -> (f64, f64) {
 }
 
 fn estimate_fees(sectors : f64) -> (f64, f64) {
-    let precommit_desposit: f64 = PRECOMMIT_VALUE_IN_FIL;
-    let provecommit_fee : f64 = PROVECOMMIT_VALUE_IN_FIL;
-    let total_precommit_deposits: f64 = sectors * precommit_desposit;
-    let total_provecommit_fee: f64 = sectors * provecommit_fee;
-    (total_precommit_deposits,total_provecommit_fee)
+    let pre_commit_deposit: f64 = PRECOMMIT_VALUE_IN_FIL;
+    let prove_commit_fee : f64 = PROVECOMMIT_VALUE_IN_FIL;
+    let total_pre_commit_deposits: f64 = sectors * pre_commit_deposit;
+    let total_prove_commit_fee: f64 = sectors * prove_commit_fee;
+    (total_pre_commit_deposits,total_prove_commit_fee)
 }
 
 fn print_fees(sectors: u64) {
     let (total_liquidity_required, total_liquidity_required_verified) = estimate_fees(sectors as f64);
-    println!("{} sectors require {} FIL in precommit deposit fees, and need {} FIL for provecommit ",
+    println!("{} sectors require {} FIL in preCommit deposit fees, and need {} FIL for proveCommit ",
              sectors, total_liquidity_required, total_liquidity_required_verified);
 }
 
@@ -60,9 +63,9 @@ mod tests {
     #[test]
     fn test_estimate_fees() {
         let sectors = 1000.0;
-        let (total_precommit_deposits, total_provecommit_fee) = estimate_fees(sectors);
-        assert_eq!(total_precommit_deposits, sectors * PRECOMMIT_VALUE_IN_FIL);
-        assert_eq!(total_provecommit_fee, sectors * PROVECOMMIT_VALUE_IN_FIL);
+        let (total_pre_commit_deposits, total_prove_commit_fee) = estimate_fees(sectors);
+        assert_eq!(total_pre_commit_deposits, sectors * PRECOMMIT_VALUE_IN_FIL);
+        assert_eq!(total_prove_commit_fee, sectors * PROVECOMMIT_VALUE_IN_FIL);
     }
 
     #[test]
