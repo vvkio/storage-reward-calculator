@@ -3,8 +3,8 @@ use std::io;
 const SECTOR_CAPACITY_IN_GIB: u64 = 32; // 32 GiB
 const PIB_IN_GIB: u64 = 1024 * 1024; // 1 PiB = 1048576 GiB
 const COLLATERAL_REQUIREMENT_IN_FIL: f64 = 0.2033;
-const PRECOMMIT_VALUE_IN_FIL: f64 = 0.0596;
-const PROVECOMMIT_VALUE_IN_FIL: f64 = 0.1684;
+const PRE_COMMIT_VALUE_IN_FIL: f64 = 0.0596;
+const PROVE_COMMIT_VALUE_IN_FIL: f64 = 0.1684;
 
 fn main() {
     println!("Enter the desired storage capacity in PiB:");
@@ -20,6 +20,7 @@ fn main() {
 fn print_estimates(sectors: u64){
     print_fees(sectors);
     print_collateral(sectors);
+    print_collateral_in_millions(sectors);
 }
 
 fn estimate_collateral(sectors: u64) -> (f64, f64) {
@@ -29,8 +30,8 @@ fn estimate_collateral(sectors: u64) -> (f64, f64) {
 }
 
 fn estimate_fees(sectors : f64) -> (f64, f64) {
-    let pre_commit_deposit: f64 = PRECOMMIT_VALUE_IN_FIL;
-    let prove_commit_fee : f64 = PROVECOMMIT_VALUE_IN_FIL;
+    let pre_commit_deposit: f64 = PRE_COMMIT_VALUE_IN_FIL;
+    let prove_commit_fee : f64 = PROVE_COMMIT_VALUE_IN_FIL;
     let total_pre_commit_deposits: f64 = sectors * pre_commit_deposit;
     let total_prove_commit_fee: f64 = sectors * prove_commit_fee;
     (total_pre_commit_deposits,total_prove_commit_fee)
@@ -46,6 +47,11 @@ fn print_collateral(sectors: u64) {
     let (collateral_in_fil, verified_collateral_in_fil) = estimate_collateral(sectors);
     println!("{} sectors require {} FIL in pledge collateral, and need {} FIL for pledge collateral for sectors containing verified deals",
              sectors, collateral_in_fil, verified_collateral_in_fil);
+}
+fn print_collateral_in_millions(sectors: u64) {
+    let (collateral_in_fil, verified_collateral_in_fil) = estimate_collateral(sectors);
+    println!("{} Requires {}M FIL for cc collateral, or {}M FIL collateral needed for verified deals",
+             sectors, collateral_in_fil/1000000, verified_collateral_in_fil/1000000);
 }
 
 #[cfg(test)]
@@ -64,8 +70,8 @@ mod tests {
     fn test_estimate_fees() {
         let sectors = 1000.0;
         let (total_pre_commit_deposits, total_prove_commit_fee) = estimate_fees(sectors);
-        assert_eq!(total_pre_commit_deposits, sectors * PRECOMMIT_VALUE_IN_FIL);
-        assert_eq!(total_prove_commit_fee, sectors * PROVECOMMIT_VALUE_IN_FIL);
+        assert_eq!(total_pre_commit_deposits, sectors * PRE_COMMIT_VALUE_IN_FIL);
+        assert_eq!(total_prove_commit_fee, sectors * PROVE_COMMIT_VALUE_IN_FIL);
     }
 
     #[test]
