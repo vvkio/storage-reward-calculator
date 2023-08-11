@@ -1,4 +1,5 @@
 use std::io;
+use std::ops::Div;
 
 const SECTOR_CAPACITY_IN_GIB: u64 = 32; // 32 GiB
 const PIB_IN_GIB: u64 = 1024 * 1024; // 1 PiB = 1048576 GiB
@@ -51,7 +52,7 @@ fn print_collateral(sectors: u64) {
 fn print_collateral_in_millions(sectors: u64) {
     let (collateral_in_fil, verified_collateral_in_fil) = estimate_collateral(sectors);
     println!("{} Requires {}M FIL for cc collateral, or {}M FIL collateral needed for verified deals",
-             sectors, collateral_in_fil/1000000, verified_collateral_in_fil/1000000);
+             sectors, collateral_in_fil.div(1000000.0), verified_collateral_in_fil.div(1000000.0));
 }
 
 #[cfg(test)]
