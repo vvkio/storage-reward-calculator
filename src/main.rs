@@ -1,6 +1,22 @@
 use std::io;
 use std::ops::Div;
 
+#[macro_use] extern crate rocket;
+use rocket::serde::json::Json;
+use rocket::serde::Serialize;
+
+#[derive(Serialize)]
+struct Message {
+    message: &'static str,
+}
+
+#[get("/")]
+fn index() -> Json<Message> {
+    Json(Message {
+        message: "Hello, World!",
+    })
+}
+
 const SECTOR_CAPACITY_IN_GIB: u64 = 32; // 32 GiB
 const PIB_IN_GIB: u64 = 1024 * 1024; // 1 PiB = 1048576 GiB
 const COLLATERAL_REQUIREMENT_IN_FIL: f64 = 0.2033;
@@ -8,6 +24,11 @@ const PRE_COMMIT_VALUE_IN_FIL: f64 = 0.0596;
 const PROVE_COMMIT_VALUE_IN_FIL: f64 = 0.1684;
 
 fn main() {
+    #[launch]
+    fn rocket() -> _ {
+        rocket::build().mount("/", routes![index])
+    }
+
     println!("Enter the desired storage capacity in PiB:");
     let mut pib_str = String::new();
     io::stdin().read_line(&mut pib_str).unwrap();
